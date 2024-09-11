@@ -14,13 +14,14 @@ const path = require('path');
 
 module.exports = configure(function (/* ctx */) {
   return {
-    eslint: {
-      // fix: true,
-      // include: [],
-      // exclude: [],
-      // rawOptions: {},
-      warnings: true,
-      errors: true
+
+    supportTS: {
+      tsCheckerConfig: {
+        eslint: {
+          enabled: true,
+          files: './src/**/*.{ts,tsx,js,jsx,vue}',
+        },
+      }
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
@@ -76,6 +77,7 @@ module.exports = configure(function (/* ctx */) {
       // minify: false,
       // polyfillModulePreload: true,
       // distDir
+      showProgress: true,
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
@@ -103,10 +105,27 @@ module.exports = configure(function (/* ctx */) {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
-      config: {},
+      config: {
+        dark: 'false',
+        loadingBar: {
+          color: 'secondary',
+          size: '8px',
+          skipHijack: true
+        },
+        cordova: {
+          iosStatusBarPadding: true, // add the dynamic top padding on iOS mobile devices
+          backButtonExit: true // Quasar handles app exit on mobile phone back button
+        },
+        capacitor: {
+          version: String(require('./package').version),
+          iosStatusBarPadding: true, // add the dynamic top padding on iOS mobile devices
+          backButtonExit: true,
+          backButton: true
+        }
+      },
 
-      // iconSet: 'material-icons', // Quasar icon set
-      // lang: 'en-US', // Quasar language pack
+      iconSet: 'material-icons', // Quasar icon set
+      lang: 'es', // Quasar language pack
 
       // For special cases outside of where the auto-import strategy can have an impact
       // (like functional components as one of the examples),
@@ -116,12 +135,23 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'AppVisibility',
+        'Dialog',
+        'Loading',
+        'LoadingBar',
+        'Meta',
+        'Cookies',
+        'Notify',
+        'AppFullscreen',
+        'LocalStorage',
+        'SessionStorage',
+      ]
     },
 
-    // animations: 'all', // --- includes all animations
+    animations: 'all', // --- includes all animations
     // https://v2.quasar.dev/options/animations
-    animations: [],
+    // animations: [],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#sourcefiles
     // sourceFiles: {
